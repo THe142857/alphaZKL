@@ -1,10 +1,10 @@
 import numpy as np
-from typing import List, Tuple
+from typing import Tuple
 
 
 class Board:
     # 0 = empty, 1 = X, -1 = O
-    def __init__(self, n=3):
+    def __init__(self, n: int = 3):
         self.n = n
         self.board = np.zeros((n, n), np.int8)
 
@@ -12,7 +12,6 @@ class Board:
         np.where(self.board == 0)
 
     def move(self, move: Tuple[int, int], player: int):
-        """Takes in a board position and a player and updates the board"""
 
         self.board[move[0], move[1]] = player
 
@@ -34,21 +33,23 @@ class Board:
         return diag == player or anti_diag == player
 
     def __repr__(self):
-        get_symbol = lambda x: "X" if x == 1 else "O" if x == -1 else " "
-        res = ''
+        res = ""
         for i in range(2 * self.n + 1):
             if i % 2 == 0:
-                res += "――" * (2 * self.n - 1) + "\n"
+                res += "-" * (2 * self.n - 1) + "\n"
             else:
-                res += " | ".join([get_symbol(x) for x in self.board[i // 2]]) + "\n"
+                res += "|".join(self.board[i // 2].astype(str)) + "\n"
         return res
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     b = Board()
-    b.move((1, 1), 1)
-    b.move((1, 2), -1)
-    b.move((0, 0), -1)
-    b.move((2, 1), 1)
-    b.move((2, 0), -1)
-    print(b)
+    p = 1
+    while True:
+        x, y = input().split(" ")
+        b.move((int(x), int(y)), p)
+        print(b)
+        if b.has_won(p):
+            print(f"{p} has won")
+            break
+        p = 2 if p == 1 else 1
