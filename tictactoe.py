@@ -34,16 +34,21 @@ class Board:
         return diag == player or anti_diag == player
 
     def __repr__(self):
+        get_symbol = lambda x: "X" if x == 1 else "O" if x == -1 else " "
         res = ''
         for i in range(2 * self.n + 1):
             if i % 2 == 0:
-                res += "-" * (2 * self.n - 1) + "\n"
+                res += "――" * (2 * self.n - 1) + "\n"
             else:
-                res += "|".join(self.board[i // 2].astype(str)) + "\n"
+                res += " | ".join([get_symbol(x) for x in self.board[i // 2]]) + "\n"
         return res
 
 
 if __name__ == '__main__':
     b = Board()
-    b.move((2, 0), 1)
+    b.move((1, 1), 1)
+    b.move((1, 2), -1)
+    b.move((0, 0), -1)
+    b.move((2, 1), 1)
+    b.move((2, 0), -1)
     print(b)
