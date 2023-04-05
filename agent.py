@@ -1,4 +1,4 @@
-from game import Game
+from tictactoe import Game
 from agent import Agent
 from typing import List, Tuple
 import numpy as np

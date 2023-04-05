@@ -62,18 +62,30 @@ class Game:
     def is_done(self) -> bool:
         return self.b.valid_moves == ()
 
-    def get_status(self, agent: Agent) -> int:
-        if self.b.has_won(agent.num):
+    def get_board(self) -> np.ndarray:
+        return self.b.b
+
+    def get_moves(self) -> list:
+        action_size = self.action_size()
+        valid_moves = self.b.valid_moves()
+        res = np.zeros(action_size)
+        for i in range(valid_moves):
+            res[valid_moves // self.n][valid_moves % self.n] = 1
+        return res
+
+    def status(self, num: int) -> int:
+        if self.b.has_won(num):
             return 1
-        if self.b.has_won(-agent.num):
+        if self.b.has_won(num):
             return -1
         return 0
 
-    def canonicalize(self, agent: Agent):
-        self.b.canonicalize(agent.num)
+    def canonicalize(self, num: int):
+        self.b.canonicalize(num)
 
-    def step(self, agent: Agent, action: Action):
-        self.b.move(action, agent.num)
+    def step(self, num: int, act: int):
+        action = (act // self.n, act % self.n)
+        self.b.move(action, num)
 
     def get_symmetries(self, pi: Policy) -> List[Any]:
         pi_b = np.reshape(pi[:-1], (self.n, self.n))
@@ -92,12 +104,13 @@ class Game:
 
 if __name__ == "__main__":
     b = Board()
-    p = 1
-    while True:
-        x, y = input().split(" ")
-        b.move((int(x), int(y)), p)
-        print(b)
-        if b.has_won(p):
-            print(f"{p} has won")
-            break
-        p = 2 if p == 1 else 1
+    # p = 1
+    # while True:
+    #     x, y = input().split(" ")
+    #     b.move((int(x), int(y)), p)
+    #     print(b)
+    #     if b.has_won(p):
+    #         print(f"{p} has won")
+    #         break
+    #     p = 2 if p == 1 else 1
+    print(hash(b))
