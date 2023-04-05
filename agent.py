@@ -9,9 +9,6 @@ Action = Tuple[int, int]
 
 
 class Agent:
-    """
-    Does not consider the current player, only deals with the canonical form of the board.
-    """
 
     def __init__(self, game: Game, num: int):
         # use -1 for one player and 1 for other
@@ -30,6 +27,13 @@ class Agent:
                       the given board, and v is its value. The examples has
                       board in its canonical form.
         """
+
+        input_boards, target_pis, target_vs = list(zip(*examples))
+        input_boards = np.asarray(input_boards)
+        target_pis = np.asarray(target_pis)
+        target_vs = np.asarray(target_vs)
+        
+        self.nnet.model.fit(x = input_boards, y = [target_pis, target_vs], batch_size = args.batch_size, epochs = args.epochs)
         pass
 
     def predict(self, board: np.ndarray) -> Tuple[Policy, Value]:
