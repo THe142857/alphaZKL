@@ -1,5 +1,5 @@
 import numpy as np
-from typing import List, Any
+from typing import Tuple, List, Any
 from agent import Agent, Policy, Value, Action
 
 
@@ -55,6 +55,9 @@ class Game:
 
     def action_size(self) -> int:
         return self.n**2
+
+    def board_size(self) -> Tuple[int, int]:
+        return (self.n, self.n)
 
     def is_done(self) -> bool:
         return self.b.valid_moves == ()

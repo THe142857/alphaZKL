@@ -1,0 +1,2 @@
+different NN architecture (FCNN, CNN, transformer)
+variations on TTT
