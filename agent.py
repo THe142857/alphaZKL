@@ -3,13 +3,20 @@ from agent import Agent
 from typing import List, Tuple
 import numpy as np
 
+Policy = np.ndarray
+Value = float
+Action = Tuple[int, int]
+
 
 class Agent:
     """
     Does not consider the current player, only deals with the canonical form of the board.
     """
 
-    def __init__(self, game: Game):
+    def __init__(self, game: Game, num: int):
+        # use -1 for one player and 1 for other
+        self.game = game
+        self.num = num
         pass
 
     def train(self, examples: List[Tuple[np.ndarray, np.ndarray, float]]):
@@ -25,7 +32,7 @@ class Agent:
         """
         pass
 
-    def predict(self, board: np.ndarray) -> Tuple[np.ndarray, float]:
+    def predict(self, board: np.ndarray) -> Tuple[Policy, Value]:
         """
         Input:
             board: current board in its canonical form.
